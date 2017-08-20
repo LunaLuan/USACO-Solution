@@ -1,0 +1,136 @@
+/*
+ ID: htluand1
+ TASK: wormhole
+ LANG: JAVA
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
+
+
+public class wormhole {
+	
+	static int N;
+	
+	static int points[][];
+	static int pairs[];
+	static int nextPoint[];
+	
+	static int kq;
+
+	public static void main(String[] args) throws IOException{
+		Scanner in=new Scanner(new File("wormhole.in"));
+		PrintWriter out=new PrintWriter(new File("wormhole.out"));
+		
+		N = in.nextInt();
+		
+		nextPoint = new int[N];
+		for(int i = 0; i < N; i++) {
+			nextPoint[i] = -1;
+		}
+		
+		points = new int[N][2];
+		for(int i = 0; i < N; i++) {
+			points[i][0] = in.nextInt();
+			points[i][1] = in.nextInt();
+		}
+		
+		for(int i = 0; i < N; i++) {
+			int minX = Integer.MAX_VALUE;
+			for(int j = 0; j < N; j++) {
+				if(i != j 
+						&& points[i][1] == points[j][1] 
+						&& points[i][0] < points[j][0]
+						&& points[j][0] < minX) {
+					nextPoint[i] = j;
+					minX = points[j][0];
+				}
+			}
+		}
+		// printNextPoint();
+		
+		pairs = new int[N];
+		for(int i = 0; i < N; i++) {
+			pairs[i] = -1;
+		}
+		
+		kq = 0;
+		genPairs(0);
+		
+		System.out.println(kq);
+		out.close();
+		System.exit(0);
+	}
+	
+	static void genPairs(int i) {
+		if(i == N) {
+			// printPairs();
+			check();
+		}
+		else if(pairs[i] != -1) {
+			genPairs(i + 1);
+		}
+		else {
+			for(int j = i + 1; j < N; j++) {
+				if(pairs[j] != -1)
+					continue;
+				
+				pairs[i] = j;
+				pairs[j] = i;
+				
+				genPairs(i + 1);
+				
+				pairs[j] = -1;
+				pairs[i] = -1;
+			}
+			
+		}
+	}
+
+	static void check() {
+		for(int s = 0; s < N; s++) {
+			boolean visited[] = new boolean[N];
+			visited[s] = true;
+			
+			int f = s;
+			while(f != -1) {
+				f = nextPoint[pairs[f]];
+				if(f == -1)
+					break;
+				
+				if(visited[f] == true) {
+					break;
+				}
+				visited[f] = true;
+			}
+			
+			if(f == -1) {
+				kq++;
+				return;
+			}
+		}
+	}
+
+	static void printPairs() {
+		for(int i = 0; i < N; i++) {
+			System.out.print(pairs[i] + "\t");
+		}
+		System.out.println();
+	}
+	
+	static void printNextPoint() {
+		for(int i = 0; i < N; i++) {
+			System.out.print(nextPoint[i] + "\t");
+		}
+		System.out.println();
+	}
+	
+}
+
+
+

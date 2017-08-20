@@ -1,0 +1,17 @@
+/*
+ID: htluand1
+PROG: test
+LANG: C++
+ */
+#include <iostream>
+using namespace std;
+
+int main() {
+	freopen("test.in", "r", stdin);
+
+
+}
+
+
+
+

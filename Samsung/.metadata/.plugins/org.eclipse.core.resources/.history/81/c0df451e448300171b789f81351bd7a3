@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+
+int m;
+int map[110][110];
+int u[110];
+
+int soMayBanDa;
+
+void printMap();
+void resetMap();
+void printList();
+
+int list[110];
+int lengthOfList;
+bool removed[110];
+
+void find(int i) {
+	bool visited[110];
+	for(int i = 0; i < m; i++) {
+		visited[i] = false;
+	}
+
+	visited[i] = true;
+	for(int k = 0; k < m; k++) {
+		// get next;
+
+		int max = -1, maxT = -1;
+		for(int f = 0; f < m; f++) {
+			if(visited[f] == false)
+				continue;
+
+			for(int t = 0; t < m; t++) {
+				if(visited[t] == true)
+					continue;
+
+				if(map[f][t] > max) {
+					max = map[f][t];
+				}
+			}
+		}
+
+
+	}
+}
+int main() {
+	freopen("input.txt", "r", stdin);
+
+	int T;
+	cin >> T;
+
+	for(int t = 0; t < T; t++) {
+		cin >> m;
+		resetMap();
+
+		for(int i = 0; i < m; i++) {
+			int f; cin >> f;
+			removed[f] = false;
+
+			cin >> u[f];
+
+			int length; cin >> length;
+			for(int j = 0; j < length; j++) {
+				int t; cin >> t;
+				map[f][t] = 1;
+			}
+		}
+
+		for(int i = 0; i < m; i++) {
+			for(int j = 0; j < m; j++) {
+				if(map[i][j] == 1) {
+					map[i][j] = u[i] + u[j];
+				}
+			}
+		}
+
+		printMap();
+
+		soMayBanDa = 0;
+
+
+		cout << soMayBanDa << endl;
+	}
+}
+
+
+void printMap() {
+	for(int i = 0; i < m; i++) {
+		for(int j = 0; j < m; j++) {
+			cout << map[i][j] << "\t";
+		}
+		cout << endl;
+	}
+}
+
+void resetMap() {
+	for(int i = 0; i < m; i++) {
+		for(int j = 0; j < m; j++) {
+			map[i][j] = 0;
+		}
+	}
+}
+
